@@ -102,3 +102,6 @@ button.ghost, label.ghost { background: transparent; color: inherit; border: 1px
   .preview-wrap { padding: 0; }
   .paper { box-shadow: none; zoom: 1; }
 }
+.undo { position: fixed; left: 20px; bottom: 20px; z-index: 10; display: flex; align-items: center; gap: 12px; background: #16202b; color: #fff; padding: 10px 14px; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.3); }
+.undo[hidden] { display: none; }
+.undo button { color: #fff; }

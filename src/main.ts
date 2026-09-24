@@ -296,15 +296,29 @@ $('print').addEventListener('click', () => {
   window.print();
   document.title = old;
 });
+// Clear buttons act immediately (no confirm popup, browsers may block it) and offer undo instead
+let undoTimer = 0;
+function offerUndo(msg: string) {
+  const snap = JSON.parse(JSON.stringify(collect())) as Doc;
+  const bar = $('undoBar');
+  bar.querySelector('span')!.textContent = msg;
+  bar.hidden = false;
+  clearTimeout(undoTimer);
+  undoTimer = window.setTimeout(() => (bar.hidden = true), 8000);
+  $('undoBtn').onclick = () => {
+    apply(snap);
+    bar.hidden = true;
+  };
+}
 $('clearItems').addEventListener('click', () => {
-  if (items.some((i) => i.desc.trim() || i.price) && !confirm('ล้างรายการทั้งหมด?')) return;
+  offerUndo('ล้างรายการแล้ว');
   items = [{ desc: '', qty: 1, price: 0 }];
   renderItems();
   update();
   document.querySelector<HTMLInputElement>('#items .desc')?.focus();
 });
 $('clearSeller').addEventListener('click', () => {
-  if (!confirm('ล้างข้อมูลร้านที่จำไว้?')) return;
+  offerUndo('ล้างข้อมูลร้านแล้ว');
   for (const f of SELLER_FIELDS) $(f).value = '';
   update();
 });
@@ -314,7 +328,8 @@ $<HTMLElement>('items').parentElement!.closest('aside')!.addEventListener('focus
   if (el.tagName === 'INPUT' && (el.type === 'text' || el.inputMode === 'decimal' || el.inputMode === 'numeric')) el.select();
 });
 $('newDoc').addEventListener('click', () => {
-  if (confirm('เริ่มเอกสารใหม่? (ข้อมูลผู้ขายยังอยู่)')) freshDoc();
+  offerUndo('ล้างฟอร์มแล้ว');
+  freshDoc();
 });
 
 $('exportJson').addEventListener('click', () => {
