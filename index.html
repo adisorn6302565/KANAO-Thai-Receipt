@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KANAO Thai Receipt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="app">
+    <aside class="editor">
+      <header class="top">
+        <h1>KANAO Thai Receipt</h1>
+        <p class="sub">ออกใบเสร็จ / ใบกำกับภาษี / ใบเสนอราคา เป็น PDF ข้อมูลอยู่ในเครื่องคุณเท่านั้น</p>
+      </header>
+
+      <section>
+        <h2>เอกสาร</h2>
+        <div class="grid2">
+          <label>ประเภท
+            <select id="docType">
+              <option value="receipt">ใบเสร็จรับเงิน</option>
+              <option value="taxinvoice">ใบกำกับภาษี / ใบเสร็จรับเงิน</option>
+              <option value="invoice">ใบแจ้งหนี้</option>
+              <option value="quotation">ใบเสนอราคา</option>
+            </select>
+          </label>
+          <label>เลขที่ <input id="docNo" /></label>
+          <label>วันที่ <input id="docDate" type="date" /></label>
+          <label>ต้นฉบับ / สำเนา
+            <select id="copyMark">
+              <option value="">ไม่ระบุ</option>
+              <option value="ต้นฉบับ">ต้นฉบับ</option>
+              <option value="สำเนา">สำเนา</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section>
+        <h2>ผู้ขาย <span class="muted">(จำไว้ในเครื่องอัตโนมัติ)</span></h2>
+        <label>ชื่อร้าน / บริษัท <input id="sName" /></label>
+        <label>ที่อยู่ <textarea id="sAddr" rows="2"></textarea></label>
+        <div class="grid2">
+          <label>เลขผู้เสียภาษี <input id="sTax" inputmode="numeric" maxlength="17" /></label>
+          <label>สาขา <input id="sBranch" placeholder="สำนักงานใหญ่" /></label>
+          <label>โทร <input id="sPhone" /></label>
+          <label>พร้อมเพย์ (QR ท้ายเอกสาร) <input id="sPromptPay" inputmode="numeric" placeholder="เว้นว่าง = ไม่แสดง" /></label>
+        </div>
+      </section>
+
+      <section>
+        <h2>ลูกค้า</h2>
+        <label>ชื่อ <input id="cName" /></label>
+        <label>ที่อยู่ <textarea id="cAddr" rows="2"></textarea></label>
+        <div class="grid2">
+          <label>เลขผู้เสียภาษี <input id="cTax" inputmode="numeric" maxlength="17" /></label>
+          <label>สาขา <input id="cBranch" /></label>
+        </div>
+      </section>
+
+      <section>
+        <h2>รายการ</h2>
+        <div id="items" class="items"></div>
+        <button type="button" id="addItem" class="ghost">+ เพิ่มรายการ</button>
+      </section>
+
+      <section>
+        <h2>ยอดเงิน</h2>
+        <div class="grid2">
+          <label>ส่วนลด (บาท) <input id="discount" inputmode="decimal" placeholder="0" /></label>
+          <label>ภาษีมูลค่าเพิ่ม
+            <select id="vatMode">
+              <option value="none">ไม่มี VAT</option>
+              <option value="exclusive">VAT 7% บวกเพิ่ม</option>
+              <option value="inclusive">VAT 7% รวมในราคาแล้ว</option>
+            </select>
+          </label>
+          <label>หัก ณ ที่จ่าย
+            <select id="wht">
+              <option value="0">ไม่หัก</option>
+              <option value="1">1% (ขนส่ง)</option>
+              <option value="2">2% (โฆษณา)</option>
+              <option value="3">3% (บริการ / ฟรีแลนซ์)</option>
+              <option value="5">5% (ค่าเช่า)</option>
+            </select>
+          </label>
+          <label>ชำระโดย
+            <select id="payBy">
+              <option value="">ไม่ระบุ</option>
+              <option>เงินสด</option>
+              <option>โอนเงิน / พร้อมเพย์</option>
+              <option>บัตรเครดิต</option>
+              <option>เช็ค</option>
+            </select>
+          </label>
+        </div>
+        <label>หมายเหตุ <textarea id="note" rows="2"></textarea></label>
+      </section>
+
+      <div class="bar">
+        <button type="button" id="print">พิมพ์ / บันทึก PDF</button>
+        <button type="button" id="saveDoc" class="ghost">เก็บเข้าประวัติ</button>
+        <button type="button" id="newDoc" class="ghost">เอกสารใหม่</button>
+      </div>
+
+      <section>
+        <h2>ประวัติ <span class="muted">(ในเครื่องนี้)</span></h2>
+        <div class="history-tools">
+          <button type="button" id="exportJson" class="ghost small">สำรอง (JSON)</button>
+          <label class="ghost small file">นำเข้า<input type="file" id="importJson" accept="application/json" hidden /></label>
+        </div>
+        <ul id="history" class="history"></ul>
+      </section>
+      <footer class="foot"><a href="https://github.com/adisorn6302565/KANAO-Thai-Receipt">GitHub</a></footer>
+    </aside>
+
+    <main class="preview-wrap">
+      <article id="paper" class="paper"></article>
+    </main>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
