@@ -39,6 +39,8 @@ button {
 button.ghost, label.ghost { background: transparent; color: inherit; border: 1px solid var(--border); }
 .small, label.small { padding: 5px 10px; font-size: .85rem; border-radius: 8px; display: inline-block; cursor: pointer; font-weight: 600; }
 .del, .rm { padding: 0; background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.item-tools { display: flex; gap: 8px; }
+.item-tools button { flex: 1; }
 .bar { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 0; border-top: 1px solid var(--border); }
 .bar button { flex: 1; }
 .history-tools { display: flex; gap: 8px; }

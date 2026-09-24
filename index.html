@@ -63,7 +63,10 @@
       <section>
         <h2>รายการ</h2>
         <div id="items" class="items"></div>
-        <button type="button" id="addItem" class="ghost">+ เพิ่มรายการ</button>
+        <div class="item-tools">
+          <button type="button" id="addItem" class="ghost">+ เพิ่มรายการ</button>
+          <button type="button" id="clearItems" class="ghost">ล้างรายการ</button>
+        </div>
       </section>
 
       <section>
@@ -102,7 +105,7 @@
       <div class="bar">
         <button type="button" id="print">พิมพ์ / บันทึก PDF</button>
         <button type="button" id="saveDoc" class="ghost">เก็บเข้าประวัติ</button>
-        <button type="button" id="newDoc" class="ghost">เอกสารใหม่</button>
+        <button type="button" id="newDoc" class="ghost">เอกสารใหม่ (ล้างฟอร์ม)</button>
       </div>
 
       <section>
@@ -110,6 +113,7 @@
         <div class="history-tools">
           <button type="button" id="exportJson" class="ghost small">สำรอง (JSON)</button>
           <label class="ghost small file">นำเข้า<input type="file" id="importJson" accept="application/json" hidden /></label>
+          <button type="button" id="clearSeller" class="ghost small">ล้างข้อมูลร้าน</button>
         </div>
         <ul id="history" class="history"></ul>
       </section>

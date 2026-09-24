@@ -296,6 +296,23 @@ $('print').addEventListener('click', () => {
   window.print();
   document.title = old;
 });
+$('clearItems').addEventListener('click', () => {
+  if (items.some((i) => i.desc.trim() || i.price) && !confirm('ล้างรายการทั้งหมด?')) return;
+  items = [{ desc: '', qty: 1, price: 0 }];
+  renderItems();
+  update();
+  document.querySelector<HTMLInputElement>('#items .desc')?.focus();
+});
+$('clearSeller').addEventListener('click', () => {
+  if (!confirm('ล้างข้อมูลร้านที่จำไว้?')) return;
+  for (const f of SELLER_FIELDS) $(f).value = '';
+  update();
+});
+// clicking a filled text field selects it, so typing replaces the old value
+$<HTMLElement>('items').parentElement!.closest('aside')!.addEventListener('focusin', (e) => {
+  const el = e.target as HTMLInputElement;
+  if (el.tagName === 'INPUT' && (el.type === 'text' || el.inputMode === 'decimal' || el.inputMode === 'numeric')) el.select();
+});
 $('newDoc').addEventListener('click', () => {
   if (confirm('เริ่มเอกสารใหม่? (ข้อมูลผู้ขายยังอยู่)')) freshDoc();
 });
